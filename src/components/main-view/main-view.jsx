@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 import { LoginView } from '../login-view/login-view';
+import { SignupView } from '../signup-view/signup-view';
 
 const apiUrl = 'https://users-movies-f50a18657028.herokuapp.com';
 
@@ -47,13 +48,17 @@ export const MainView = () => {
 
   if (!user) {
     return (
-      <LoginView
-        onLoggedIn={(user, token) => {
-          setUser(user);
-          setToken(token);
-          localStorage.clear();
-        }}
-      />
+      <React.Fragment>
+        <LoginView
+          onLoggedIn={(user, token) => {
+            setUser(user);
+            setToken(token);
+            localStorage.clear();
+          }}
+        />
+        or
+        <SignupView />
+      </React.Fragment>
     );
   }
 
