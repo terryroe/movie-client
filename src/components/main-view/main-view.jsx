@@ -53,7 +53,6 @@ export const MainView = () => {
           onLoggedIn={(user, token) => {
             setUser(user);
             setToken(token);
-            localStorage.clear();
           }}
         />
         or
@@ -81,6 +80,7 @@ export const MainView = () => {
         onClick={() => {
           setUser(null);
           setToken(null);
+          localStorage.clear();
         }}
       >
         Logout
