@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col } from 'react-bootstrap';
+import { Button, Row, Col } from 'react-bootstrap';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 import { LoginView } from '../login-view/login-view';
@@ -72,7 +72,7 @@ export const MainView = () => {
               />
             </Col>
           ))}
-          <button
+          <Button
             onClick={() => {
               setUser(null);
               setToken(null);
@@ -80,7 +80,7 @@ export const MainView = () => {
             }}
           >
             Logout
-          </button>
+          </Button>
         </React.Fragment>
       )}
     </Row>
