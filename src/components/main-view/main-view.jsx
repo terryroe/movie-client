@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Button, Row, Col } from 'react-bootstrap';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 import { LoginView } from '../login-view/login-view';
@@ -37,54 +38,51 @@ export const MainView = () => {
       });
   }, [token]);
 
-  if (selectedMovie) {
-    return (
-      <MovieView
-        movie={selectedMovie}
-        onBackClick={() => setSelectedMovie(null)}
-      />
-    );
-  }
-
-  if (!user) {
-    return (
-      <React.Fragment>
-        <LoginView
-          onLoggedIn={(user, token) => {
-            setUser(user);
-            setToken(token);
-            localStorage.clear();
-          }}
-        />
-        or
-        <SignupView />
-      </React.Fragment>
-    );
-  }
-
-  if (movies.length === 0) {
-    return <div>Loading...</div>;
-  }
-
   return (
-    <React.Fragment>
-      {movies.map((movie) => (
-        <MovieCard
-          key={movie.Id}
-          movie={movie}
-          onMovieClick={(newSelectedMovie) =>
-            setSelectedMovie(newSelectedMovie)
-          }
-        />
-      ))}
-      <button
-        onClick={() => {
-          setUser(null);
-          setToken(null);
-        }}
-      >
-        Logout
-      </button>
-    </React.Fragment>
+    <Row className="justify-content-md-center">
+      {selectedMovie ? (
+        <Col md={8}>
+          <MovieView
+            movie={selectedMovie}
+            onBackClick={() => setSelectedMovie(null)}
+          />
+        </Col>
+      ) : !user ? (
+        <Col md={5}>
+          <LoginView
+            onLoggedIn={(user, token) => {
+              setUser(user);
+              setToken(token);
+            }}
+          />
+          or
+          <SignupView />
+        </Col>
+      ) : movies.length === 0 ? (
+        <div>Loading...</div>
+      ) : (
+        <React.Fragment>
+          {movies.map((movie) => (
+            <Col key={movie.Id} md={3} className="mb-5">
+              <MovieCard
+                movie={movie}
+                onMovieClick={(newSelectedMovie) =>
+                  setSelectedMovie(newSelectedMovie)
+                }
+              />
+            </Col>
+          ))}
+          <Button
+            onClick={() => {
+              setUser(null);
+              setToken(null);
+              localStorage.clear();
+            }}
+          >
+            Logout
+          </Button>
+        </React.Fragment>
+      )}
+    </Row>
   );
 };
