@@ -86,10 +86,7 @@ export const MainView = () => {
                   <div>Loading...</div>
                 ) : (
                   <Col md={8}>
-                    <MovieView
-                      movie={selectedMovie}
-                      onBackClick={() => setSelectedMovie(null)}
-                    />
+                    <MovieView movies={movies} />
                   </Col>
                 )}
               </Fragment>
