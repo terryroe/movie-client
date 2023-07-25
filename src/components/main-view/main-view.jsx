@@ -5,6 +5,7 @@ import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 import { LoginView } from '../login-view/login-view';
 import { SignupView } from '../signup-view/signup-view';
+import { NavigationBar } from '../navigation-bar/navigation-bar';
 
 const apiUrl = 'https://users-movies-f50a18657028.herokuapp.com';
 
@@ -14,7 +15,6 @@ export const MainView = () => {
   const [user, setUser] = useState(storedUser ? storedUser : null);
   const [token, setToken] = useState(storedToken ? storedToken : null);
   const [movies, setMovies] = useState([]);
-  const [selectedMovie, setSelectedMovie] = useState(null);
   useEffect(() => {
     if (!token) {
       return;
@@ -39,8 +39,15 @@ export const MainView = () => {
       });
   }, [token]);
 
+  const handleLogOut = () => {
+    setUser(null);
+    setToken(null);
+    localStorage.clear();
+  };
+
   return (
     <BrowserRouter>
+      <NavigationBar user={user} onLoggedOut={handleLogOut} />
       <Row className="justify-content-md-center">
         <Routes>
           <Route
@@ -107,15 +114,7 @@ export const MainView = () => {
                         <MovieCard movie={movie} />
                       </Col>
                     ))}
-                    <Button
-                      onClick={() => {
-                        setUser(null);
-                        setToken(null);
-                        localStorage.clear();
-                      }}
-                    >
-                      Logout
-                    </Button>
+                    <Button onClick={handleLogOut}>Logout</Button>
                   </Fragment>
                 )}
               </Fragment>
