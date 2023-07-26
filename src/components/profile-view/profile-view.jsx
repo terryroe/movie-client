@@ -3,7 +3,7 @@ import { Container, Form, Button, Row, Col } from 'react-bootstrap';
 
 const apiUrl = 'https://users-movies-f50a18657028.herokuapp.com';
 
-export const ProfileView = ({ user, token, setUser }) => {
+export const ProfileView = ({ user, token, setUser, movies }) => {
   const [username, setUsername] = useState(user.Username);
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState(user.Email);
@@ -43,6 +43,10 @@ export const ProfileView = ({ user, token, setUser }) => {
         console.log(error);
       });
   };
+
+  let favoriteMovies = movies.filter((movie) => {
+    return user.FavoriteMovies.includes(movie.Id);
+  });
 
   return (
     <Fragment>
@@ -124,6 +128,15 @@ export const ProfileView = ({ user, token, setUser }) => {
             </Col>
           </Row>
         </Form>
+
+        <Row className="mt-4">
+          <h2>Your Favorite Movies</h2>
+          {favoriteMovies.length === 0 ? (
+            <Col>You have no favorite movies yet.</Col>
+          ) : (
+            favoriteMovies.map((movie) => <h3>{movie.Title}</h3>)
+          )}
+        </Row>
       </Container>
     </Fragment>
   );

@@ -107,7 +107,12 @@ export const MainView = () => {
                 {!user ? (
                   <Navigate to="/login" replace />
                 ) : (
-                  <ProfileView user={user} token={token} setUser={setUser} />
+                  <ProfileView
+                    user={user}
+                    token={token}
+                    setUser={setUser}
+                    movies={movies}
+                  />
                 )}
               </Fragment>
             }
