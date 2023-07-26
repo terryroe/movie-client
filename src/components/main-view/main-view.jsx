@@ -6,6 +6,7 @@ import { MovieView } from '../movie-view/movie-view';
 import { LoginView } from '../login-view/login-view';
 import { SignupView } from '../signup-view/signup-view';
 import { NavigationBar } from '../navigation-bar/navigation-bar';
+import { ProfileView } from '../profile-view/profile-view';
 
 const apiUrl = 'https://users-movies-f50a18657028.herokuapp.com';
 
@@ -95,6 +96,18 @@ export const MainView = () => {
                   <Col md={8}>
                     <MovieView movies={movies} />
                   </Col>
+                )}
+              </Fragment>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <Fragment>
+                {!user ? (
+                  <Navigate to="/login" replace />
+                ) : (
+                  <ProfileView user={user} token={token} setUser={setUser} />
                 )}
               </Fragment>
             }
