@@ -94,7 +94,12 @@ export const MainView = () => {
                   <div>Loading...</div>
                 ) : (
                   <Col md={8}>
-                    <MovieView movies={movies} />
+                    <MovieView
+                      movies={movies}
+                      user={user}
+                      setUser={setUser}
+                      token={token}
+                    />
                   </Col>
                 )}
               </Fragment>
