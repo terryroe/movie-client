@@ -14,9 +14,9 @@ export const MovieView = ({ movies, user, setUser, token }) => {
     setIsFavorite(user.FavoriteMovies.includes(movieId));
   }, []);
 
-  const handleFavorite = () => {
+  const handleFavorite = (addToFavorite) => {
     fetch(`${apiUrl}/users/${user.Username}/movies/${movieId}`, {
-      method: 'POST',
+      method: addToFavorite ? 'POST' : 'DELETE',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
@@ -31,33 +31,7 @@ export const MovieView = ({ movies, user, setUser, token }) => {
         }
       })
       .then((data) => {
-        setIsFavorite(true);
-        localStorage.setItem('user', JSON.stringify(data));
-        setUser(data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
-  const handleUnFavorite = () => {
-    fetch(`${apiUrl}/users/${user.Username}/movies/${movieId}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          alert('Something went wrong');
-          throw new Error('Something went wrong');
-        }
-      })
-      .then((data) => {
-        setIsFavorite(false);
+        setIsFavorite(addToFavorite);
         localStorage.setItem('user', JSON.stringify(data));
         setUser(data);
       })
@@ -89,11 +63,11 @@ export const MovieView = ({ movies, user, setUser, token }) => {
         <Button variant="link">Back</Button>
       </Link>
       {isFavorite ? (
-        <Button onClick={handleUnFavorite} variant="info">
+        <Button onClick={() => handleFavorite(false)} variant="info">
           Remove From Favorites
         </Button>
       ) : (
-        <Button onClick={handleFavorite} variant="success">
+        <Button onClick={() => handleFavorite(true)} variant="success">
           Add To Favorites
         </Button>
       )}
