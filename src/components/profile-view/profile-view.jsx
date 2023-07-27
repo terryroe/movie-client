@@ -40,7 +40,7 @@ export const ProfileView = ({ user, token, setUser, movies }) => {
         setUser(data);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
@@ -50,94 +50,72 @@ export const ProfileView = ({ user, token, setUser, movies }) => {
 
   return (
     <Fragment>
-      <Container>
-        <Row className="mt-3">
-          <h1>Profile</h1>
-          <Col md={2}>
-            <strong>Username:</strong>
-          </Col>
-          <Col>{username}</Col>
-        </Row>
+      <h1>Profile</h1>
+      <div>
+        <strong className="me-3">Username:</strong>
+        {username}
+      </div>
+      <div>
+        <strong className="me-3">Email:</strong>
+        {email}
+      </div>
 
-        <Row>
-          <Col md={2}>
-            <strong>Email:</strong>
-          </Col>
-          <Col>{email}</Col>
-        </Row>
+      <Form onSubmit={handleSubmit}>
+        <h2>Update Your Profile Information</h2>
+        <Form.Group controlId="formUsername">
+          <Form.Label>Username:</Form.Label>
+          <Form.Control
+            value={username}
+            required
+            onChange={(e) => setUsername(e.target.value)}
+            minLength={5}
+          />
+        </Form.Group>
 
-        <Row className="mt-3">
-          <h2>Update Your Profile Information</h2>
-        </Row>
+        <Form.Group controlId="formPassword">
+          <Form.Label>Password:</Form.Label>
+          <Form.Control
+            type="password"
+            value={password}
+            required
+            onChange={(e) => setPassword(e.target.value)}
+            minLength={5}
+          />
+        </Form.Group>
 
-        <Form onSubmit={handleSubmit}>
-          <Row className="mt-2">
-            <Form.Group controlId="formUsername">
-              <Form.Label>Username:</Form.Label>
-              <Form.Control
-                value={username}
-                required
-                onChange={(e) => setUsername(e.target.value)}
-                minLength={5}
-              />
-            </Form.Group>
-          </Row>
+        <Form.Group controlId="formEmail">
+          <Form.Label>Email:</Form.Label>
+          <Form.Control
+            type="email"
+            value={email}
+            required
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </Form.Group>
 
-          <Row className="mt-2">
-            <Form.Group controlId="formPassword">
-              <Form.Label>Password:</Form.Label>
-              <Form.Control
-                type="password"
-                value={password}
-                required
-                onChange={(e) => setPassword(e.target.value)}
-                minLength={5}
-              />
-            </Form.Group>
-          </Row>
+        <Form.Group controlId="formBirthday">
+          <Form.Label>Birthday:</Form.Label>
+          <Form.Control
+            type="date"
+            value={birthday}
+            required
+            onChange={(e) => setBirthday(e.target.value)}
+          />
+        </Form.Group>
 
-          <Row className="mt-2">
-            <Form.Group controlId="formEmail">
-              <Form.Label>Email:</Form.Label>
-              <Form.Control
-                type="email"
-                value={email}
-                required
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </Form.Group>
-          </Row>
+        <Button variant="primary" type="submit">
+          Update Your Profile
+        </Button>
+      </Form>
 
-          <Row className="mt-2">
-            <Form.Group controlId="formBirthday">
-              <Form.Label>Birthday:</Form.Label>
-              <Form.Control
-                type="date"
-                value={birthday}
-                required
-                onChange={(e) => setBirthday(e.target.value)}
-              />
-            </Form.Group>
-          </Row>
-
-          <Row className="mt-2">
-            <Col md={3}>
-              <Button variant="primary" type="submit">
-                Update Your Profile
-              </Button>
-            </Col>
-          </Row>
-        </Form>
-
-        <Row className="mt-4">
-          <h2>Your Favorite Movies</h2>
-          {favoriteMovies.length === 0 ? (
-            <Col>You have no favorite movies yet.</Col>
-          ) : (
-            favoriteMovies.map((movie) => <h3>{movie.Title}</h3>)
-          )}
-        </Row>
-      </Container>
+      <Row className="mt-4">
+        <h2>Your Favorite Movies</h2>
+        {favoriteMovies.length === 0 ? (
+          <Col>You have no favorite movies yet.</Col>
+        ) : (
+          favoriteMovies.map((movie) => <h3>{movie.Title}</h3>)
+        )}
+      </Row>
     </Fragment>
   );
 };
