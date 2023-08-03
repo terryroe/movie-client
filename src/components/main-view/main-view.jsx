@@ -7,15 +7,21 @@ import { LoginView } from '../login-view/login-view';
 import { SignupView } from '../signup-view/signup-view';
 import { NavigationBar } from '../navigation-bar/navigation-bar';
 import { ProfileView } from '../profile-view/profile-view';
+import { useSelector, useDispatch } from 'react-redux';
+import { setMovies } from '../../redux/reducers/movies';
+import { setUser } from '../../redux/reducers/user';
 
 const apiUrl = 'https://users-movies-f50a18657028.herokuapp.com';
 
 export const MainView = () => {
   const storedUser = JSON.parse(localStorage.getItem('user'));
   const storedToken = localStorage.getItem('token');
-  const [user, setUser] = useState(storedUser ? storedUser : null);
+  const user = useSelector((state) => state.user);
   const [token, setToken] = useState(storedToken ? storedToken : null);
-  const [movies, setMovies] = useState([]);
+  const movies = useSelector((state) => state.movies);
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if (!token) {
       return;
@@ -36,7 +42,7 @@ export const MainView = () => {
             Director: movie.Director,
           };
         });
-        setMovies(moviesFromApi);
+        dispatch(setMovies(moviesFromApi));
       });
   }, [token]);
 
@@ -48,7 +54,7 @@ export const MainView = () => {
 
   return (
     <BrowserRouter>
-      <NavigationBar user={user} onLoggedOut={handleLogOut} />
+      <NavigationBar onLoggedOut={handleLogOut} />
       <Row className="justify-content-md-center">
         <Routes>
           <Route
@@ -75,7 +81,6 @@ export const MainView = () => {
                   <Col md={5}>
                     <LoginView
                       onLoggedIn={(user, token) => {
-                        setUser(user);
                         setToken(token);
                       }}
                     />
@@ -94,12 +99,7 @@ export const MainView = () => {
                   <div>Loading...</div>
                 ) : (
                   <Col md={8}>
-                    <MovieView
-                      movies={movies}
-                      user={user}
-                      setUser={setUser}
-                      token={token}
-                    />
+                    <MovieView user={user} setUser={setUser} token={token} />
                   </Col>
                 )}
               </Fragment>

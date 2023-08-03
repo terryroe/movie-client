@@ -6,7 +6,8 @@ import { Button } from 'react-bootstrap';
 
 const apiUrl = 'https://users-movies-f50a18657028.herokuapp.com';
 
-export const MovieView = ({ movies, user, setUser, token }) => {
+export const MovieView = ({ user, setUser, token }) => {
+  const movies = useSelector((state) => state.movies);
   const { movieId } = useParams();
   const movie = movies.find((movie) => movie.Id === movieId);
   const [isFavorite, setIsFavorite] = useState(false);
